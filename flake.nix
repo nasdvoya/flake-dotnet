@@ -16,6 +16,12 @@
           packages = with pkgs; [
             (with dotnetCorePackages; combinePackages [ sdk_6_0 sdk_7_0 sdk_8_0  ])
           ];
+           # Add the Nuke.GlobalTool as a global tool
+          shellHook = ''
+            export DOTNET_ROOT=$(dirname $(realpath $(which dotnet)))
+            dotnet tool install Nuke.GlobalTool --global
+            export PATH="$PATH:$HOME/.dotnet/tools"
+          '';
         };
       });
     };
