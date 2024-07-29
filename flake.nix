@@ -16,6 +16,11 @@
           packages = with pkgs; [
             (with dotnetCorePackages; combinePackages [ sdk_6_0 sdk_7_0 sdk_8_0  ])
           ];
+
+          shellHook = ''
+            export NIX_LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [ pkgs.stdenv.cc.cc pkgs.openssl ]}
+            export NIX_LD=$(cat "${pkgs.stdenv.cc}/nix-support/dynamic-linker")
+          '';
         };
       });
     };
